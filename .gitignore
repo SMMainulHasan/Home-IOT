@@ -1,0 +1,16 @@
+# node
+node_modules
+dist
+build
+
+# env
+.env
+
+# logs
+*.log
+
+# vscode
+.vscode
+
+# arduino
+*.bin
