@@ -53,7 +53,7 @@ export const initSockets = (io) => {
     socket.on("device-data", async ({ deviceId, data }) => {
       //only send to clients in this device's room
       socket.to(deviceId).emit("device-data", { deviceId, data });
-      logger.info(`Data from ${deviceId}: ${JSON.stringify(data)}`);
+      // logger.info(`Data from ${deviceId}: ${JSON.stringify(data)}`);
 
       //update isDone in DB if sessions exist and changed
       if (data.sessions?.length) {

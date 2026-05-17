@@ -52,6 +52,9 @@ void pumpControlTask(void *pvParameters) {
     struct tm nowTm;
     localtime_r(&now, &nowTm);
 
+    bool isTimeSynced = time(nullptr) > 1700000000;
+    
+
     int hour   = nowTm.tm_hour;
     int minute = nowTm.tm_min;
 
@@ -72,7 +75,7 @@ void pumpControlTask(void *pvParameters) {
 
       case STATE_IDLE:
 
-        if (isNewDay) {
+        if (isTimeSynced && isNewDay) {
           xSemaphoreTake(dataMutex, portMAX_DELAY);
           for (Session& s : systemContext.sessions) s.waterDone = false;
           systemContext.lastWaterTime = now;

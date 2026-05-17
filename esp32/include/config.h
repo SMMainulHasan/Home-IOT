@@ -4,7 +4,7 @@
 #define WIFI_SSID "GreenLife_#"
 #define WIFI_PASSWORD "#gone@*555*@"
 
-#define WS_HOST "192.168.31.120" // your devices IP (localhost might not work)
+#define WS_HOST "https://home-iot.onrender.com" // your devices IP (localhost might not work)
 #define WS_PORT 5000
 #define WS_PATH "/socket.io/?EIO=4&transport=websocket"
 
@@ -14,10 +14,10 @@
 #define daylightOffset_sec 0
 
 
-// #define RETRY_DELAY_MS 900000 // 15 minutes
-#define RETRY_DELAY_MS 30000 // 30 sec
-// 
-#define MANUAL_PUMP_TARGET_LIMIT 5
+#define RETRY_DELAY_MS 900000 // 15 minutes
+// #define RETRY_DELAY_MS 30000 // 30 sec
+
+#define MANUAL_PUMP_TARGET_LIMIT 10 // 10L max for manual pump activationI
 
 
 //RF Remote Control--------

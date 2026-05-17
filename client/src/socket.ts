@@ -1,7 +1,6 @@
 import { io } from "socket.io-client";
-import { WS_URL } from "./lib/api";
 
-export const socket = io(WS_URL, {
+export const socket = io(import.meta.env.VITE_SERVER_HOST, {
   transports: ["websocket"],
 });
 
