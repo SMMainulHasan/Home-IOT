@@ -1,4 +1,4 @@
-function sendWateringNotification(prevState, data) {
+export function sendWateringNotification(prevState, data) {
   const time = new Date().toLocaleTimeString();
 
   // 🌿 Watering Started

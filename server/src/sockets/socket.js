@@ -1,5 +1,6 @@
 import { Schedule } from "../models/Schedule.js";
 import { getEspSchedules } from "../routes/schedule.route.js";
+import { sendWateringNotification } from "../services/sendWateringNotification.js";
 import { logger } from "../utils/logger.js";
 
 const devices = new Map(); // deviceId -> socket.id
