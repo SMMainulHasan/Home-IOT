@@ -1,3 +1,5 @@
+import { notify } from "./telegram";
+
 export function sendWateringNotification(prevState, data) {
   const time = new Date().toLocaleTimeString();
 
