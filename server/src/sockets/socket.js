@@ -14,13 +14,22 @@ export const initSockets = (io) => {
   ioInstance = io;
 
   io.on("connection", (socket) => {
-    logger.info(`Client connected: ${socket.id}`);
-
     // Identify client type (frontend or ESP32)
     socket.on("register", async ({ type, deviceId, userId }) => {
       if (type === "device") {
         devices.set(deviceId, socket.id);
         socket.join(deviceId); // ✅ join room
+        logger.info(`Device registered: ${deviceId}`);
+        await notify(
+          `${divider}\n` +
+            `🟢  <b>Device Online</b>\n` +
+            `─────────────────\n\n` +
+            `📡  <b>ID:</b> <code>${deviceId}</code>\n` +
+            `🕐  <b>Time:</b> ${new Date().toLocaleTimeString()}\n` +
+            `📅  <b>Date:</b> ${new Date().toLocaleDateString()}\n\n` +
+            `<i>Your plant system is up and running.</i>\n` +
+            `─────────────────`,
+        );
 
         try {
           const espSchedules = await getEspSchedules(deviceId);
@@ -29,14 +38,12 @@ export const initSockets = (io) => {
         } catch (err) {
           logger.info(err);
         }
-
-        logger.info(`Device registered: ${deviceId}`);
       }
 
       if (type === "client") {
-        socket.join(deviceId); // deviceId is esp's devices ID Always!
-        logger.info(`Frontend connected: ${socket.id}`);
         userDevices.set(userId, deviceId); // track which device this user owns
+        socket.join(deviceId); // deviceId is esp's devices ID Always!
+        logger.info(`Frontend Registered: ${socket.id}`);
       }
     });
 
@@ -88,6 +95,16 @@ export const initSockets = (io) => {
     // Disconnect
     socket.on("disconnect", () => {
       logger.info(`Disconnected: ${socket.id}`);
+       await notify(
+          `${divider}\n` +
+          `🔴  <b>Device Offline</b>\n` +
+          `─────────────────\n\n` +
+          `📡  <b>ID:</b> <code>${deviceId}</code>\n` +
+          `🕐  <b>Time:</b> ${new Date().toLocaleTimeString()}\n` +
+          `📅  <b>Date:</b> ${new Date().toLocaleDateString()}\n\n` +
+          `<i>Connection lost. Check your device.</i>\n` +
+          `─────────────────`
+        )
 
       for (const [deviceId, id] of devices.entries()) {
         if (id === socket.id) {
