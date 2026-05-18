@@ -15,6 +15,7 @@ export interface Session {
 export interface DeviceData {
   deviceId: string;
   data: {
+    timestamp: number;
     paused: boolean;
     manualPump: boolean;
     flowRatePerMin: number;

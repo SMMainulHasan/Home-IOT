@@ -22,14 +22,12 @@ export const initSockets = (io) => {
         socket.join(deviceId); // ✅ join room
         logger.info(`Device registered: ${deviceId}`);
         await notify(
-          `─────────────────\n` +
-            `🟢  <b>Device Online</b>\n` +
-            `─────────────────\n\n` +
-            `📡  <b>ID:</b> <code>${deviceId}</code>\n` +
+          `🟢  <b>Device Online</b>\n` +
+            `─────────────────\n` +
+            `📡  <b>Device ID:</b> <code>${deviceId}</code>\n` +
             `🕐  <b>Time:</b> ${new Date().toLocaleTimeString()}\n` +
             `📅  <b>Date:</b> ${new Date().toLocaleDateString()}\n\n` +
-            `<i>Your plant system is up and running.</i>\n` +
-            `─────────────────`,
+            `<i>Your plant system is up and running.</i>\n`,
         );
 
         try {
@@ -102,14 +100,12 @@ export const initSockets = (io) => {
           devices.delete(deviceId);
           logger.warn(`Device removed: ${deviceId}`);
           await notify(
-            `─────────────────\n` +
-              `🔴  <b>Device Offline</b>\n` +
-              `─────────────────\n\n` +
-              `📡  <b>ID:</b> <code>${deviceId}</code>\n` +
+            `🔴  <b>Device Offline</b>\n` +
+              `─────────────────\n` +
+              `📡  <b>Device ID:</b> <code>${deviceId}</code>\n` +
               `🕐  <b>Time:</b> ${new Date().toLocaleTimeString()}\n` +
               `📅  <b>Date:</b> ${new Date().toLocaleDateString()}\n\n` +
-              `<i>Connection lost. Check your device.</i>\n` +
-              `─────────────────`,
+              `<i>Connection lost. Check your device.</i>\n`,
           );
         }
       }
