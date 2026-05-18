@@ -6,7 +6,12 @@
 
 void websocketTask(void *pvParameters) {
 
-  webSocket.begin(WS_HOST, WS_PORT, WS_PATH);
+  // webSocket.begin(WS_HOST, WS_PORT, WS_PATH);
+  webSocket.beginSSL(
+  "home-iot.onrender.com",
+  443,
+  "/socket.io/?EIO=4&transport=websocket"
+);
   webSocket.onEvent(webSocketEvent);
   webSocket.setReconnectInterval(5000);
 

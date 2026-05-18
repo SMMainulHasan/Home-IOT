@@ -4,7 +4,7 @@
 #define WIFI_SSID "GreenLife_#"
 #define WIFI_PASSWORD "#gone@*555*@"
 
-#define WS_HOST "https://home-iot.onrender.com" // your devices IP (localhost might not work)
+#define WS_HOST "home-iot.onrender.com" // your devices IP (localhost might not work)
 #define WS_PORT 5000
 #define WS_PATH "/socket.io/?EIO=4&transport=websocket"
 
