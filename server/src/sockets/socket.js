@@ -1,6 +1,5 @@
 import { Schedule } from "../models/Schedule.js";
 import { getEspSchedules } from "../routes/schedule.route.js";
-import { notify } from "../services/telegram.js";
 import { logger } from "../utils/logger.js";
 
 const devices = new Map(); // deviceId -> socket.id
@@ -80,40 +79,8 @@ export const initSockets = (io) => {
         }
       }
 
-      //  STATE_IDLE = 0,STATE_WATERING = 1, STATE_DELAYED = 2, STATE_MANUAL = 3, STATE_BLOCKED = 4
-      //Notify when watering starts (state changed from 0 to 1)
-      if (prevState === 0 && data.state === 1) {
-        notify(
-          `🌱 <b>Schedule watering started!</b>\n` +
-            `💧 It will water ${data.targetLiters}L\n` +
-            `🕐 ${new Date().toLocaleTimeString()}\n`,
-        );
-      }
-      //Notify when watering completed (state changed from 1 to 0)
-      else if (prevState === 1 && data.state === 0) {
-        notify(
-          `✅ <b>Schedule watering completed!</b>\n` +
-            `💧 It watered ${data.lastSessionLiters}L\n` +
-            `🕐 ${new Date().toLocaleTimeString()}\n`,
-        );
-      }
-      //Watering delayed (state changed from 1 to 2)
-      else if (prevState === 1 && data.state === 2) {
-        notify(
-          `⏳ <b>Watering delayed!</b>\n` +
-            `💧 Not enough water flow\n` +
-            `🕐 ${new Date().toLocaleTimeString()}\n`,
-        );
-      }
-      //Trying again (state changed from 2 to 1)
-      else if (prevState === 2 && data.state === 1) {
-        notify(
-          `🔄 <b>Trying again to water!</b>\n` +
-            `💧 Target liters: ${data.targetLiters}L\n` +
-            `💧 It watered till now ${data.sessionLiters}L\n` +
-            `🕐 ${new Date().toLocaleTimeString()}\n`,
-        );
-      }
+      // Check watering state changes and send notifications
+      sendWateringNotification(prevState, data);
       prevState = data.state; // Update previous state
     });
 
