@@ -22,7 +22,7 @@ export const initSockets = (io) => {
         socket.join(deviceId); // ✅ join room
         logger.info(`Device registered: ${deviceId}`);
         await notify(
-          `${divider}\n` +
+          `─────────────────\n` +
             `🟢  <b>Device Online</b>\n` +
             `─────────────────\n\n` +
             `📡  <b>ID:</b> <code>${deviceId}</code>\n` +
@@ -102,7 +102,7 @@ export const initSockets = (io) => {
           devices.delete(deviceId);
           logger.warn(`Device removed: ${deviceId}`);
           await notify(
-            `${divider}\n` +
+            `─────────────────\n` +
               `🔴  <b>Device Offline</b>\n` +
               `─────────────────\n\n` +
               `📡  <b>ID:</b> <code>${deviceId}</code>\n` +
