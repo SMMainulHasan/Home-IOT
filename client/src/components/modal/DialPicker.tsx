@@ -12,7 +12,7 @@ export default function DialPicker({ label, values, value, onChange }: Props) {
   const timeoutRef = useRef<any>(null);
 
   const ITEM_HEIGHT = 40;
-  const VISIBLE_ITEMS = 5; // must be odd number
+  // const VISIBLE_ITEMS = 5; // must be odd number
 
   // Scroll to selected value (only when value changes externally)
   useEffect(() => {
