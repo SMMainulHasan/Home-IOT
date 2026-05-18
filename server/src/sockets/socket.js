@@ -1,5 +1,6 @@
 import { Schedule } from "../models/Schedule.js";
 import { getEspSchedules } from "../routes/schedule.route.js";
+import { notify } from "../services/telegram.js";
 import { logger } from "../utils/logger.js";
 
 const devices = new Map(); // deviceId -> socket.id
@@ -72,6 +73,12 @@ export const initSockets = (io) => {
               );
             }
             logger.info(`💾 isDone updated for ${deviceId}`);
+            notify(
+              `🌱 <b>Watering Complete!</b>\n` +
+                `💧 ${data.lastSessionLiters}L delivered\n` +
+                `🕐 ${new Date().toLocaleTimeString()}\n` +
+                `📍 Device: ${deviceId}`,
+            );
           } catch (err) {
             logger.error(`DB update failed: ${err.message}`);
           }
