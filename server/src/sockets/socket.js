@@ -8,6 +8,7 @@ const userDevices = new Map(); // It will need in future when I add more esp or 
 const deviceSessions = new Map(); // deviceId -> "id1:true,id2:false,..."
 
 let ioInstance = null;
+let prevState = null; //previous watering state
 
 export const initSockets = (io) => {
   ioInstance = io;
@@ -73,17 +74,47 @@ export const initSockets = (io) => {
               );
             }
             logger.info(`💾 isDone updated for ${deviceId}`);
-            notify(
-              `🌱 <b>Watering Complete!</b>\n` +
-                `💧 ${data.lastSessionLiters}L delivered\n` +
-                `🕐 ${new Date().toLocaleTimeString()}\n` +
-                `📍 Device: ${deviceId}`,
-            );
           } catch (err) {
             logger.error(`DB update failed: ${err.message}`);
           }
         }
       }
+
+      //  STATE_IDLE = 0,STATE_WATERING = 1, STATE_DELAYED = 2, STATE_MANUAL = 3, STATE_BLOCKED = 4
+      //Notify when watering starts (state changed from 0 to 1)
+      if (prevState === 0 && data.state === 1) {
+        notify(
+          `🌱 <b>Schedule watering started!</b>\n` +
+            `💧 It will water ${data.targetLiters}L\n` +
+            `🕐 ${new Date().toLocaleTimeString()}\n`,
+        );
+      }
+      //Notify when watering completed (state changed from 1 to 0)
+      else if (prevState === 1 && data.state === 0) {
+        notify(
+          `✅ <b>Schedule watering completed!</b>\n` +
+            `💧 It watered ${data.lastSessionLiters}L\n` +
+            `🕐 ${new Date().toLocaleTimeString()}\n`,
+        );
+      }
+      //Watering delayed (state changed from 1 to 2)
+      else if (prevState === 1 && data.state === 2) {
+        notify(
+          `⏳ <b>Watering delayed!</b>\n` +
+            `💧 Not enough water flow\n` +
+            `🕐 ${new Date().toLocaleTimeString()}\n`,
+        );
+      }
+      //Trying again (state changed from 2 to 1)
+      else if (prevState === 2 && data.state === 1) {
+        notify(
+          `🔄 <b>Trying again to water!</b>\n` +
+            `💧 Target liters: ${data.targetLiters}L\n` +
+            `💧 It watered till now ${data.sessionLiters}L\n` +
+            `🕐 ${new Date().toLocaleTimeString()}\n`,
+        );
+      }
+      prevState = data.state; // Update previous state
     });
 
     // Disconnect
