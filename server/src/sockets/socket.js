@@ -93,18 +93,18 @@ export const initSockets = (io) => {
     });
 
     // Disconnect
-    socket.on("disconnect", () => {
+    socket.on("disconnect", async () => {
       logger.info(`Disconnected: ${socket.id}`);
-       await notify(
-          `${divider}\n` +
+      await notify(
+        `${divider}\n` +
           `🔴  <b>Device Offline</b>\n` +
           `─────────────────\n\n` +
           `📡  <b>ID:</b> <code>${deviceId}</code>\n` +
           `🕐  <b>Time:</b> ${new Date().toLocaleTimeString()}\n` +
           `📅  <b>Date:</b> ${new Date().toLocaleDateString()}\n\n` +
           `<i>Connection lost. Check your device.</i>\n` +
-          `─────────────────`
-        )
+          `─────────────────`,
+      );
 
       for (const [deviceId, id] of devices.entries()) {
         if (id === socket.id) {
