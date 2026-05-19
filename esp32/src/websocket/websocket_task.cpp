@@ -13,7 +13,7 @@ void websocketTask(void *pvParameters) {
   "/socket.io/?EIO=4&transport=websocket"
 );
   webSocket.onEvent(webSocketEvent);
-  webSocket.setReconnectInterval(5000);
+  webSocket.setReconnectInterval(1000);
 
   while (true) {
     webSocket.loop();

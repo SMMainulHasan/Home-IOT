@@ -19,7 +19,7 @@ export default function PlantStatusCard({ deviceData }: Props) {
   //only setState inside the interval callback — not in effect body
   useEffect(() => {
     const interval = setInterval(() => {
-      setIsOnline(Date.now() - lastDataTime.current < 5000);
+      setIsOnline(Date.now() - lastDataTime.current < 3000);
     }, 1000);
 
     return () => clearInterval(interval);
