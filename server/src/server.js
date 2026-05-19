@@ -13,6 +13,8 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: config.clientUrl,
+    pingTimeout: 60000,
+    pingInterval: 25000,
     methods: ["GET", "POST"],
   },
 });
