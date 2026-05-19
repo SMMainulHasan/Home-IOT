@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import type { DeviceData } from "../../types";
 import { PineTrees } from "./PineTrees.tsx";
 
@@ -5,10 +6,24 @@ interface Props {
   deviceData: DeviceData;
 }
 
-const now = Date.now();
-
 export default function PlantStatusCard({ deviceData }: Props) {
-  const isOnline = now - deviceData.data.timestamp < 3 * 1000;
+  const [isOnline, setIsOnline] = useState(false);
+  const lastDataTime = useRef<number>(0);
+
+  useEffect(() => {
+    if (deviceData) {
+      lastDataTime.current = Date.now();
+    }
+  }, [deviceData]);
+
+  //only setState inside the interval callback — not in effect body
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsOnline(Date.now() - lastDataTime.current < 2000);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
   const lastWatered = new Date(
     deviceData.data.lastWaterTime * 1000,
   ).toLocaleTimeString([], {
@@ -19,23 +34,21 @@ export default function PlantStatusCard({ deviceData }: Props) {
   return (
     <div className="bg-slate-900 rounded-2xl p-4 shadow-lg flex items-center justify-between">
       {/* Left */}
+
       <div>
+        {/* Device Status */}
         <div
           className={`
-            absolute top-4 left-4
-            px-3 py-1
-            rounded-full
-            border
-            text-[11px] font-medium tracking-wide
-            backdrop-blur-sm
-            transition-all duration-300
+        inline-flex items-center px-2.5  rounded-full
+        border text-[10px] font-medium tracking-wide
+        transition-all duration-300
 
-            ${
-              isOnline
-                ? "border-emerald-400/40 text-emerald-300 shadow-[0_0_12px_rgba(74,222,128,0.45)]"
-                : "border-red-400/30 text-red-300"
-            }
-          `}
+        ${
+          isOnline
+            ? "border-emerald-400/30 text-emerald-300 shadow-[0_0_10px_rgba(74,222,128,0.25)]"
+            : "border-slate-700 text-slate-500 opacity-70"
+        }
+      `}
         >
           {isOnline ? "Device Online" : "Device Offline"}
         </div>
