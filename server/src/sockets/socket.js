@@ -24,10 +24,7 @@ export const initSockets = (io) => {
         await notify(
           `🟢  <b>Device Online</b>\n` +
             `─────────────────\n` +
-            `📡  <b>Device ID:</b> <code>${deviceId}</code>\n` +
-            `🕐  <b>Time:</b> ${new Date().toLocaleTimeString()}\n` +
-            `📅  <b>Date:</b> ${new Date().toLocaleDateString()}\n\n` +
-            `<i>Your plant system is up and running.</i>\n`,
+            `📡  <b>Device ID:</b> <code>${deviceId}</code>\n``<i>Your plant system is up and running.</i>\n`,
         );
 
         try {
@@ -103,8 +100,6 @@ export const initSockets = (io) => {
             `🔴  <b>Device Offline</b>\n` +
               `─────────────────\n` +
               `📡  <b>Device ID:</b> <code>${deviceId}</code>\n` +
-              `🕐  <b>Time:</b> ${new Date().toLocaleTimeString()}\n` +
-              `📅  <b>Date:</b> ${new Date().toLocaleDateString()}\n\n` +
               `<i>Connection lost. Check your device.</i>\n`,
           );
         }
