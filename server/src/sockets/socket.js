@@ -24,7 +24,8 @@ export const initSockets = (io) => {
         await notify(
           `🟢  <b>Device Online</b>\n` +
             `─────────────────\n` +
-            `📡  <b>Device ID:</b> <code>${deviceId}</code>\n``<i>Your plant system is up and running.</i>\n`,
+            `📡  <b>Device ID:</b> <code>${deviceId}</code>\n` +
+            `<i>Your plant system is up and running.</i>\n`,
         );
 
         try {
