@@ -79,7 +79,7 @@ export function sendWateringNotification(prevState, data) {
   //Waterleakage Detected
   else if (
     (data.state === 0 || data.state === 4 || data.state === 2) &&
-    data.sessionLiters > 0.1
+    data.sessionLiters > 1.0
   ) {
     notify(
       `💧 <b>Water Leakage Detected</b>\n\n` +
