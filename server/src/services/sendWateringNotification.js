@@ -1,5 +1,7 @@
 import { notify } from "./telegram.js";
 
+let isWaterLeakedNotify = false; //to prevent multiple notifications for the same leak event
+
 export function sendWateringNotification(prevState, data) {
   // 🌿 Watering Started
   if (prevState === 0 && data.state === 1) {
