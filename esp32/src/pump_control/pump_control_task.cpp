@@ -1,5 +1,6 @@
 #include "pump_control_task.h"
 #include "storage/state_storage.h"
+#include "storage/schedules_storage.h"
 #include "pump_control/pump_manager.h"
 #include "globals.h"
 #include "config.h"
@@ -75,6 +76,11 @@ void pumpControlTask(void *pvParameters) {
 
       case STATE_IDLE:
 
+        //ON/OFF solenoid if water flow without watering session
+        if(sessionLiters > 0.500){
+          shakeSolenoid(3, 500); // 3 times in 500ms intervals
+        }
+
         if (isTimeSynced && isNewDay) {
           xSemaphoreTake(dataMutex, portMAX_DELAY);
           for (Session& s : systemContext.sessions) s.waterDone = false;
@@ -140,6 +146,7 @@ void pumpControlTask(void *pvParameters) {
           systemContext.state             = STATE_IDLE;
           systemContext.sessionLiters     = 0;
           xSemaphoreGive(dataMutex);
+          saveState();// save after each watering in case of power loss during watering
           state = STATE_IDLE;
           Serial.println("✅ Watering complete");
 
@@ -195,9 +202,6 @@ void pumpControlTask(void *pvParameters) {
     } else {
       turnOffPump();
     }
-
-    // ---- SAVE STATE ----
-    saveConfigIfNeeded();
 
     vTaskDelay(500 / portTICK_PERIOD_MS);
   }

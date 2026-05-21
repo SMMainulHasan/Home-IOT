@@ -26,6 +26,8 @@ extern bool rtcAvailable;
 extern bool isWifiConnected;
 extern bool configDirty;
 
+extern String lastSchedulesHash;
+
 extern QueueHandle_t rfQueue;
 
 extern volatile uint32_t pulseCount;

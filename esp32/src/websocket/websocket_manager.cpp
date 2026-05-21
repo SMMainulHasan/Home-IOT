@@ -1,5 +1,6 @@
 #include "websocket_manager.h"
 #include "pump_control/pump_manager.h"
+#include "storage/schedules_storage.h"
 #include "globals.h"
 #include "config.h"
 
@@ -24,10 +25,8 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
       } 
       // Check for Socket.IO Message (4...)
       else if (payload[0] == '4') {
-        Serial.printf("📩 Message received: %s\n", payload);
       
         String msg = String((char*)payload);
-        Serial.println(msg);
 
         if (msg.startsWith("42")) {
           msg = msg.substring(2);
@@ -97,8 +96,8 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
 
               xSemaphoreTake(dataMutex, portMAX_DELAY);
               
+              String newHash = "";
               systemContext.sessions.clear();
-
               for (JsonObject s : schedules) {
                 Session session;
                 session.id        = s["scheduleId"].as<String>();
@@ -106,12 +105,19 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
                 session.minute    = s["minute"].as<int>();
                 session.liters    = s["liters"].as<float>();
                 session.waterDone = s["isDone"].as<bool>();
-
                 systemContext.sessions.push_back(session);
+                
+                newHash += session.id + ","; //creating hash of new scheduleIds
+              }
+              xSemaphoreGive(dataMutex);
+              if (newHash != lastSchedulesHash) {
+                lastSchedulesHash = newHash;
+                saveSchedules();
+                Serial.println("💾 Schedules changed — saved");
+              } else {
+                Serial.println("⏭ Same schedules — skip save");
               }
 
-              xSemaphoreGive(dataMutex);
-              
               Serial.printf("✅ %d schedules synced\n", systemContext.sessions.size());
             }
           }

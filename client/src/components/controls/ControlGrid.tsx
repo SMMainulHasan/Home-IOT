@@ -1,9 +1,9 @@
 import {
-  Droplet,
+  Droplets,
   Fan,
   Lightbulb,
   MoreHorizontal,
-  Settings,
+  Sprout,
   Thermometer,
 } from "lucide-react";
 import { socket } from "../../socket";
@@ -25,7 +25,7 @@ export default function ControlGrid({ deviceData }: Props) {
   return (
     <div className="grid grid-cols-2 gap-4 mt-4 mb-4">
       <ControlButton
-        icon={<Droplet size={20} />}
+        icon={<Sprout size={20} />}
         label={isManualPump ? "Stop" : "Water"}
         value={isManualPump ? "Watering" : "Start"}
         onClick={pumpHandler}
@@ -34,14 +34,24 @@ export default function ControlGrid({ deviceData }: Props) {
       <ControlButton
         icon={<Thermometer size={20} />}
         label="Temperature"
-        value="28°C"
+        value={
+          deviceData?.data.temperature
+            ? `${deviceData.data.temperature}°C`
+            : "N/A"
+        }
       />
 
       <ControlButton icon={<Lightbulb size={20} />} label="Light" value="On" />
 
-      <ControlButton icon={<Fan size={20} />} label="Fan" value="On" />
+      <ControlButton
+        icon={<Droplets size={20} />}
+        label="Humidity"
+        value={
+          deviceData?.data.humidity ? `${deviceData.data.humidity}%` : "N/A"
+        }
+      />
 
-      <ControlButton icon={<Settings size={20} />} label="Settings" />
+      <ControlButton icon={<Fan size={20} />} label="Fan" value="On" />
 
       <ControlButton icon={<MoreHorizontal size={20} />} label="More" />
     </div>

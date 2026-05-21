@@ -1,17 +1,20 @@
 #include "websocket/websocket_task.h"
 #include "websocket/websocket_manager.h"
+#include "wifi/wifi_manager.h"
 
 #include "globals.h"
 #include "config.h"
 
 void websocketTask(void *pvParameters) {
 
-  // webSocket.begin(WS_HOST, WS_PORT, WS_PATH);
-  webSocket.beginSSL(
-  "home-iot.onrender.com",
-  443,
-  "/socket.io/?EIO=4&transport=websocket"
-);
+  // wait for WiFi before connecting
+  while (!isWiFiConnected()) {
+    Serial.println("[WS] Waiting for WiFi...");
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
+  }
+
+  // webSocket.begin(WS_HOST, WS_PORT, WS_PATH);  // for local WServers without SSL
+  webSocket.beginSSL(WS_HOST, WS_PORT, WS_PATH);
   webSocket.onEvent(webSocketEvent);
   webSocket.setReconnectInterval(1000);
 
@@ -37,6 +40,8 @@ void websocketTask(void *pvParameters) {
       doc["pumpOn"]             = systemContext.pumpOn;
       doc["state"]              = systemContext.state;
       doc["lastWaterTime"]      = systemContext.lastWaterTime;
+      doc["temperature"]        = systemContext.temperature;
+      doc["humidity"]           = systemContext.humidity;
 
       JsonArray sessions = doc["sessions"].to<JsonArray>();
       for (const Session& s : systemContext.sessions) {

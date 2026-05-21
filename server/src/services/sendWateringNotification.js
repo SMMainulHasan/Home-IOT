@@ -49,7 +49,7 @@ export function sendWateringNotification(prevState, data) {
   else if (prevState === 3 && data.state !== 3) {
     notify(
       `🖐️ <b>Manual Watering Disabled</b>\n\n` +
-        `⚙️ Pump controlled automatically\n`,
+        `⚙️ Pump controlled Manually\n`,
     );
   }
 
@@ -65,14 +65,14 @@ export function sendWateringNotification(prevState, data) {
     notify(`⛔ <b>Watering Unblocked</b>\n\n` + `📡 System resumed\n`);
   }
 
-  //Waterleakage Detected
+  //Water leakage Detected
   else if (
     (data.state === 0 || data.state === 4 || data.state === 2) &&
-    data.sessionLiters > 1.0
+    data.sessionLiters > 0.4
   ) {
     notify(
       `💧 <b>Water Leakage Detected</b>\n\n` +
-        `📡 Do Check, or manually control the system(ON/OFF)\n`,
+        `📡 Do Check/manually control (ON/OFF)\n`,
     );
   }
 }

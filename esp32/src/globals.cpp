@@ -18,6 +18,8 @@ bool rtcAvailable = false;
 bool isWifiConnected = false;
 bool configDirty = false;
 
+String lastSchedulesHash = "";
+
 QueueHandle_t rfQueue;
 
 volatile uint32_t pulseCount = 0;

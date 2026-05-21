@@ -1,6 +1,7 @@
 #include "time_manager.h"
 
 void initRTC() {
+  // set timezone FIRST
   setenv("TZ", "BDT-6", 1);
   tzset();
 
@@ -11,22 +12,21 @@ void initRTC() {
     return;
   }
 
-  if (rtc.lostPower()) {
-    Serial.println("⚠️ RTC lost power — waiting for server time");
-  }
-
   rtcAvailable = true;
 
-  // ✅ load RTC time into system on boot
   DateTime now = rtc.now();
   if (now.year() >= 2024) {
     struct timeval tv;
-    tv.tv_sec  = now.unixtime();
+    tv.tv_sec  = now.unixtime(); // UTC unix time
     tv.tv_usec = 0;
-    settimeofday(&tv, NULL);
-    Serial.printf("[Time] ✅ RTC loaded: %02d:%02d:%02d\n",
-      now.hour(), now.minute(), now.second());
-  } else {
-    Serial.println("[Time] ⚠️ RTC invalid — waiting for server time");
+    settimeofday(&tv, NULL); // system stores UTC
+
+    //localtime_r will convert it to local time based on timezone set above
+    time_t now = time(nullptr);
+    struct tm nowTm;
+    localtime_r(&now, &nowTm);
+
+    Serial.printf("[RTC] Local time: %02d:%02d\n", nowTm.tm_hour, nowTm.tm_min);
+
   }
 }

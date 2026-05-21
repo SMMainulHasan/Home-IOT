@@ -40,3 +40,18 @@ bool turnOffPump(){
     digitalWrite(RELAY_PIN, LOW);
     return true;
 }
+
+void shakeSolenoid(int pulses, int pulseMs) {
+  for (int i = 0; i < pulses; i++) {
+    turnOnPump();
+    vTaskDelay(pulseMs / portTICK_PERIOD_MS);
+    turnOffPump();
+    vTaskDelay(pulseMs / portTICK_PERIOD_MS);
+  }
+  // Reset after purge — don't count purge water
+  xSemaphoreTake(dataMutex, portMAX_DELAY);
+  systemContext.sessionLiters = 0;
+  xSemaphoreGive(dataMutex);
+
+  Serial.println("✅ shakeSolenoid complete");
+}

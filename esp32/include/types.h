@@ -29,4 +29,6 @@ struct SystemContext {
   std::vector<Session> sessions;
   unsigned long lastWaterTime;
   float lastSessionLiters;
+  float temperature;
+  float humidity;
 };

@@ -5,13 +5,16 @@
 #define WIFI_PASSWORD "#gone@*555*@"
 
 #define WS_HOST "home-iot.onrender.com" // your devices IP (localhost might not work)
-#define WS_PORT 5000
+#define WS_PORT 443  //5000 for local, 443 for SSL
 #define WS_PATH "/socket.io/?EIO=4&transport=websocket"
 
 // NTP server and timezone (Bangladesh = UTC+6)
 #define ntpServer "pool.ntp.org"
 #define gmtOffset_sec (6 * 3600)  // UTC+6
 #define daylightOffset_sec 0
+
+
+// #define DHT_TYPE DHT11 // temperature and humidity sensor type
 
 
 #define RETRY_DELAY_MS 900000 // 15 minutes

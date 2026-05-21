@@ -26,5 +26,7 @@ export interface DeviceData {
     sessions: Session[];
     lastWaterTime: number;
     lastSessionLiters: number;
+    temperature: number;
+    humidity: number;
   };
 }

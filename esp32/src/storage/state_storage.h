@@ -1,5 +1,3 @@
 #pragma once
-
-void mountFileSystem();
-void loadConfig();
-void saveConfigIfNeeded();
+void saveState();
+void loadState();
