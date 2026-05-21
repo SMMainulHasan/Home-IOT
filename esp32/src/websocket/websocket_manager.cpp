@@ -31,7 +31,7 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
         if (msg.startsWith("42")) {
           msg = msg.substring(2);
 
-          DynamicJsonDocument doc(512);
+          JsonDocument doc;
 
           DeserializationError err = deserializeJson(doc, msg);
           if (err) {

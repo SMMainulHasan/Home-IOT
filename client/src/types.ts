@@ -28,5 +28,6 @@ export interface DeviceData {
     lastSessionLiters: number;
     temperature: number;
     humidity: number;
+    soilMoisture: number;
   };
 }

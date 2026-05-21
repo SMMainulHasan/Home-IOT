@@ -78,6 +78,9 @@ export default function PlantStatusCard({ deviceData }: Props) {
 
       {/* Right */}
       <div className="text-right">
+        <p className="text-slate-400 text-sm">
+          {deviceData.data.soilMoisture}% Soil Moisture
+        </p>
         <p className="text-slate-400 text-sm">Flow Rate</p>
         <h3 className="text-green-400 text-sm font-semibold">
           {deviceData.data.flowRatePerMin.toFixed(3)} L/Min

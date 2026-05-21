@@ -9,6 +9,7 @@
 #include "sensors/dht_sensor.h"
 #include "rf_control/rf_receiver_task.h"
 #include "rf_control/rf_control_task.h"
+#include "sensors/soil_moisture.h"
 
 
 void createTasks() {
@@ -21,5 +22,6 @@ void createTasks() {
   xTaskCreatePinnedToCore(pumpControlTask,  "PUMP CONTROL TASK", 4096, NULL, 1, NULL, 1);
   xTaskCreatePinnedToCore(dhtTask,          "DHT TASK",          3072, NULL, 1, NULL, 1);
   xTaskCreatePinnedToCore(rfControlTask,    "RF CONTROL TASK",   3000, NULL, 1, NULL, 1);
+  xTaskCreatePinnedToCore(soilTask,         "SOIL TASK",         4096, NULL, 1, NULL, 1);
 }
 

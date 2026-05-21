@@ -9,6 +9,7 @@
 #include "time/time_manager.h"
 #include "data/shared_data.h"
 #include "sensors/dht_sensor.h"
+#include "sensors/soil_moisture.h"
 #include "rf_control/rf_control.h"
 
 
@@ -24,6 +25,7 @@ void setup() {
   initWiFi(WIFI_SSID, WIFI_PASSWORD);
   initFlowSensor();
   initDHT();
+  initSoilSensor();
   initRfQueue();
   
   createTasks();

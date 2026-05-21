@@ -42,6 +42,7 @@ void websocketTask(void *pvParameters) {
       doc["lastWaterTime"]      = systemContext.lastWaterTime;
       doc["temperature"]        = systemContext.temperature;
       doc["humidity"]           = systemContext.humidity;
+      doc["soilMoisture"]       = systemContext.soilMoisture;
 
       JsonArray sessions = doc["sessions"].to<JsonArray>();
       for (const Session& s : systemContext.sessions) {

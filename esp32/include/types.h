@@ -31,4 +31,5 @@ struct SystemContext {
   float lastSessionLiters;
   float temperature;
   float humidity;
+  float soilMoisture;
 };
