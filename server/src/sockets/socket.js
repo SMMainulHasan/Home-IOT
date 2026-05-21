@@ -10,6 +10,7 @@ const deviceSessions = new Map(); // deviceId -> "id1:true,id2:false,..."
 
 let ioInstance = null;
 let prevState = null; //previous watering state
+let isWaterLeakedNotify = false; //to prevent multiple notifications for the same leak event
 
 export const initSockets = (io) => {
   ioInstance = io;

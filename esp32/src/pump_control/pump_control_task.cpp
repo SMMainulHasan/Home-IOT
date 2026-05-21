@@ -177,6 +177,10 @@ void pumpControlTask(void *pvParameters) {
         break;
 
       case STATE_BLOCKED:
+      
+        if(sessionLiters > 0.500){
+          shakeSolenoid(3, 500); // 3 times in 500ms intervals
+        }
 
         xSemaphoreTake(dataMutex, portMAX_DELAY);
         systemContext.pumpOn = false;

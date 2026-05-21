@@ -1,8 +1,6 @@
 import { notify } from "./telegram.js";
 
 export function sendWateringNotification(prevState, data) {
-  const time = new Date().toLocaleTimeString();
-
   // 🌿 Watering Started
   if (prevState === 0 && data.state === 1) {
     notify(
@@ -67,12 +65,18 @@ export function sendWateringNotification(prevState, data) {
 
   //Water leakage Detected
   else if (
-    (data.state === 0 || data.state === 4 || data.state === 2) &&
-    data.sessionLiters > 0.4
+    !isWaterLeakedNotify &&
+    data.sessionLiters > 0.4 &&
+    (data.state === 0 || data.state === 4)
   ) {
     notify(
       `💧 <b>Water Leakage Detected</b>\n\n` +
         `📡 Do Check/manually control (ON/OFF)\n`,
     );
+    isWaterLeakedNotify = true;
+  }
+  // reset
+  if (isWaterLeakedNotify && data.sessionLiters < 0.3) {
+    isWaterLeakedNotify = false;
   }
 }
