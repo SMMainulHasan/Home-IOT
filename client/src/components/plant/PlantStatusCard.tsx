@@ -79,15 +79,19 @@ export default function PlantStatusCard({ deviceData }: Props) {
       {/* Right */}
       <div className="text-right">
         <p className="text-slate-400 text-sm">
-          {deviceData.data.soilMoisture}% Soil Moisture
+          <span className="text-green-400 font-bold">
+            {deviceData.data.soilMoisture >= 0
+              ? deviceData.data.soilMoisture
+              : "N/A"}
+            %
+          </span>{" "}
+          Soil Moist
         </p>
-        <p className="text-slate-400 text-sm">Flow Rate</p>
-        <h3 className="text-green-400 text-sm font-semibold">
+        <h3 className="text-green-400 text-sm font-bold">
           {deviceData.data.flowRatePerMin.toFixed(3)} L/Min
         </h3>
-
-        <p className="text-slate-400 text-sm mt-1">Session</p>
-        <h3 className="text-blue-400 text-sm font-semibold">
+        <p className="text-slate-400 text-sm font-semibold">Session:</p>
+        <h3 className="text-green-400 text-sm font-semibold">
           {deviceData.data.sessionLiters.toFixed(3)} L
         </h3>
       </div>

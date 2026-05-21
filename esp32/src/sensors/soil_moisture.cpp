@@ -34,7 +34,7 @@ void soilTask(void *pvParameters) {
     int rawValue = total / 10;
 
     // convert to percentage
-    soilMoisture = map(rawValue, 3000, 1200, 0, 100);
+    soilMoisture = map(rawValue, 4095, 660, 0, 100); // in air, 4095 is 0% and 660 is 100%
 
     soilMoisture = constrain(soilMoisture, 0, 100);
 
