@@ -7,6 +7,7 @@
 #include <Preferences.h>
 #include <time.h>
 #include <RCSwitch.h>
+#include <RTClib.h>
 
 #include "types.h"
 
@@ -20,6 +21,8 @@ extern RCSwitch mySwitch;
 extern SystemContext systemContext;
 
 // SYSTEM STATE
+extern RTC_DS3231 rtc;
+extern bool rtcAvailable;
 extern bool isWifiConnected;
 extern bool configDirty;
 

@@ -8,7 +8,6 @@
 #include "websocket/websocket_task.h"
 #include "rf_control/rf_receiver_task.h"
 #include "rf_control/rf_control_task.h"
-#include "time/time_task.h"
 
 
 void createTasks() {
@@ -18,6 +17,5 @@ void createTasks() {
   xTaskCreatePinnedToCore(websocketTask, "WEBSOCKET TASK", 8192, NULL, 1, NULL, 0);
   xTaskCreatePinnedToCore(rfReceiverTask,"RF RECEIVER TASK",3000,NULL,1,NULL,0);
   xTaskCreatePinnedToCore(rfControlTask,"RF CONTROL TASK",3000,NULL,1,NULL,1);
-  xTaskCreate(timeTask, "TIME TASK", 2048, NULL, 1, NULL);
 }
 

@@ -1,5 +1,6 @@
 #pragma once
 
 #include "globals.h"
+#include "config.h"
 
-int getHour(unsigned long now);
+void initRTC();

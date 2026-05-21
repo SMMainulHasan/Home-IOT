@@ -5,6 +5,7 @@
 #include "wifi/wifi_manager.h"
 #include "storage/state_storage.h"
 #include "sensors/flow_sensor.h"
+#include "time/time_task.h"
 #include "data/shared_data.h"
 #include "rf_control/rf_control.h"
 
@@ -16,6 +17,7 @@ void setup() {
   mountFileSystem();
   initSharedData();
   loadConfig();
+  initRTC();
 
   initWiFi(WIFI_SSID, WIFI_PASSWORD);
   initFlowSensor();

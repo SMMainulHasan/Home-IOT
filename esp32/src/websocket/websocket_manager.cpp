@@ -32,7 +32,7 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
         if (msg.startsWith("42")) {
           msg = msg.substring(2);
 
-          StaticJsonDocument<512> doc;
+          DynamicJsonDocument doc(512);
 
           DeserializationError err = deserializeJson(doc, msg);
           if (err) {
@@ -76,6 +76,22 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
 
           // ---- SCHEDULE UPDATE ----
           if (event == "schedule:sync") {
+             //sync time from server
+            if (data["serverTime"].is<long>()) {
+              time_t serverTime = data["serverTime"].as<long>();
+              
+              struct timeval tv;
+              tv.tv_sec  = serverTime;
+              tv.tv_usec = 0;
+              settimeofday(&tv, NULL);
+
+              // update RTC if available
+              if (rtcAvailable) {
+                rtc.adjust(DateTime(serverTime));
+                Serial.println("[Time] ✅ Time synced from server");
+              }
+            }
+
             if (data["schedules"].is<JsonArray>()) {
               JsonArray schedules = data["schedules"].as<JsonArray>();
 

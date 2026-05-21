@@ -31,7 +31,10 @@ export const initSockets = (io) => {
         try {
           const espSchedules = await getEspSchedules(deviceId);
           // sync to ESP32
-          io.to(deviceId).emit("schedule:sync", espSchedules);
+          io.to(deviceId).emit("schedule:sync", {
+            schedules: espSchedules,
+            serverTime: Math.floor(Date.now() / 1000), // ✅ unix timestamp in seconds
+          });
         } catch (err) {
           logger.info(err);
         }

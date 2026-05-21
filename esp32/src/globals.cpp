@@ -1,4 +1,8 @@
 #include "globals.h"
+#include <RTClib.h>
+
+
+
 
 
 Preferences preferences;
@@ -9,6 +13,8 @@ RCSwitch mySwitch = RCSwitch();
 // SensorData sensorData;
 SystemContext systemContext; 
 
+RTC_DS3231 rtc;
+bool rtcAvailable = false;
 bool isWifiConnected = false;
 bool configDirty = false;
 
