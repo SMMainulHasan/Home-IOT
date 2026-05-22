@@ -24,7 +24,7 @@ extern SystemContext systemContext;
 extern RTC_DS3231 rtc;
 extern bool rtcAvailable;
 extern bool isWifiConnected;
-extern bool configDirty;
+extern bool isSyncSchedules;
 
 extern String lastSchedulesHash;
 

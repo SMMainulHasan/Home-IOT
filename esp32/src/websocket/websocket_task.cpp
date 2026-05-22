@@ -44,12 +44,15 @@ void websocketTask(void *pvParameters) {
       doc["humidity"]           = systemContext.humidity;
       doc["soilMoisture"]       = systemContext.soilMoisture;
 
-      JsonArray sessions = doc["sessions"].to<JsonArray>();
-      for (const Session& s : systemContext.sessions) {
-        JsonObject session    = sessions.add<JsonObject>();
-        session["scheduleId"] = s.id;
-        session["waterDone"]  = s.waterDone;
+      if (isSyncSchedules) {
+        JsonArray sessions = doc["sessions"].to<JsonArray>();
+        for (const Session& s : systemContext.sessions) {
+          JsonObject session    = sessions.add<JsonObject>();
+          session["scheduleId"] = s.id;
+          session["waterDone"]  = s.waterDone;
+        }
       }
+      
       xSemaphoreGive(dataMutex);
 
       JsonDocument payload;

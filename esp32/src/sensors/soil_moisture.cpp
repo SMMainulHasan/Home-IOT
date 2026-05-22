@@ -34,7 +34,7 @@ void soilTask(void *pvParameters) {
     int rawValue = total / 10;
 
     // convert to percentage
-    soilMoisture = map(rawValue, 4095, 660, 0, 100); // in air, 4095 is 0% and 660 is 100%
+    soilMoisture = map(rawValue, 4095, 700, 0, 100); // in air, 4095 is 0% and 700 is 100%
 
     soilMoisture = constrain(soilMoisture, 0, 100);
 
@@ -46,6 +46,6 @@ void soilTask(void *pvParameters) {
     Serial.print(soilMoisture);
     Serial.println("%");
 
-    vTaskDelay(30000 / portTICK_PERIOD_MS);
+    vTaskDelay(60000 / portTICK_PERIOD_MS);
   }
 }

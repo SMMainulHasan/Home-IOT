@@ -16,7 +16,7 @@ SystemContext systemContext;
 RTC_DS3231 rtc;
 bool rtcAvailable = false;
 bool isWifiConnected = false;
-bool configDirty = false;
+bool isSyncSchedules = false;
 
 String lastSchedulesHash = "";
 

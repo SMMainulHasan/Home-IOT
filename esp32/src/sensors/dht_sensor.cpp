@@ -5,10 +5,10 @@
 
 #define DHT_TYPE DHT11
 
-DHT dht(DHT_PIN, DHT_TYPE);
+DHT dht(DHT_SENSOR_PIN, DHT_TYPE);
 
 void initDHT() {
-  pinMode(DHT_PIN, INPUT);
+  pinMode(DHT_SENSOR_PIN, INPUT);
   dht.begin();
   Serial.println("✅ DHT11 initialized");
 }
