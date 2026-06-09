@@ -41,7 +41,7 @@ export default function ControlGrid({ deviceData }: Props) {
         }
       />
 
-      <ControlButton icon={<Lightbulb size={20} />} label="Light" value="On" />
+      <ControlButton icon={<Lightbulb size={20} />} label="Light" value="N/A" />
 
       <ControlButton
         icon={<Droplets size={20} />}
@@ -51,7 +51,7 @@ export default function ControlGrid({ deviceData }: Props) {
         }
       />
 
-      <ControlButton icon={<Fan size={20} />} label="Fan" value="On" />
+      <ControlButton icon={<Fan size={20} />} label="Fan" value="N/A" />
 
       <ControlButton icon={<MoreHorizontal size={20} />} label="More" />
     </div>
