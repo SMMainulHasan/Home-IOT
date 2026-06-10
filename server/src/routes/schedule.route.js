@@ -4,6 +4,9 @@ import { getIO } from "../sockets/socket.js";
 
 export const scheduleRoutes = express.Router();
 
+// server — add ping endpoint
+app.get("/ping", (req, res) => res.json({ status: "ok" }));
+
 // helper to get esp formatted schedules
 export const getEspSchedules = async (deviceId) => {
   const schedules = await Schedule.find({ deviceId, isActive: true }).select(
